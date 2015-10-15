@@ -12,7 +12,7 @@ class Type {
     static mapping = {
         table 'types'
         version false
-        id type: 'long', sqlType: 'serial', generator:'sequence', params:[sequence:'type_id_seq']
+        id type: 'long', sqlType: 'serial'
         description type: 'text'
     }
 

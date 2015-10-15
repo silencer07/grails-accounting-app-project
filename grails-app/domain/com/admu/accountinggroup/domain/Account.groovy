@@ -24,7 +24,7 @@ class Account {
     static mapping = {
         table 'accounts'
         version false
-        id type: 'long', sqlType: 'serial', generator:'sequence', params:[sequence:'account_id_seq']
+        id type: 'long', sqlType: 'serial'
         codePrefix column: 'code_prefix', type: 'BigInteger', sqlType: 'int4'
         description type: 'text'
         side sqlType: 'bpchar', type: 'char'

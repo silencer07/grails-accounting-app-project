@@ -25,7 +25,7 @@ class Transaction {
     static mapping = {
         table 'transactions'
         version false
-        id type: 'long', sqlType: 'serial', generator:'sequence', params:[sequence:'transaction_id_seq']
+        id type: 'long', sqlType: 'serial'
         comment type: 'text'
         description type : 'text'
         account type: 'BigInteger', sqlType: 'int4'

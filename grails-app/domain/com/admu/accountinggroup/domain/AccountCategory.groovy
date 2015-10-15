@@ -18,7 +18,7 @@ class AccountCategory {
     static mapping = {
         table 'account_categories'
         version false
-        id type: 'long', sqlType: 'serial', generator:'sequence', params:[sequence:'account_category_id_seq']
+        id type: 'long', sqlType: 'serial'
         type column:"type_id", type: 'BigInteger', sqlType: 'int4'
         description type: 'text'
     }
