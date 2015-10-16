@@ -5,7 +5,7 @@ class TransactionDocumentTemp {
     BigDecimal balance
     Date documentDate
     String documentNumber
-    Date postingDate
+    Date postingDate = new Date()
     String reference
     boolean voidStatus
 
