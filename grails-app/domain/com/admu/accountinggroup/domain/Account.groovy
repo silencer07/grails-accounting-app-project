@@ -21,15 +21,6 @@ class Account {
         return !Account.findByCodePrefixAndCodeSuffix(instance.prefix, suffix)
     }
 
-    static mapping = {
-        table 'accounts'
-        version false
-        id type: 'long', sqlType: 'serial'
-        codePrefix column: 'code_prefix', type: 'BigInteger', sqlType: 'int4'
-        description type: 'text'
-        side sqlType: 'bpchar', type: 'char'
-    }
-
     static belongsTo = [codePrefix: AccountCategory]
 
     static hasMany = [transactions:Transaction]

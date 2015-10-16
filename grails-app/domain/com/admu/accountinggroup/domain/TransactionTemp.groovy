@@ -21,15 +21,4 @@ class TransactionTemp {
     }
 
     static belongsTo = [account : Account, transactionDocument : TransactionDocumentTemp]
-
-    static mapping = {
-        table 'transactions_temp'
-        version false
-        id type: 'long', sqlType: 'serial'
-        comment type: 'text'
-        description type : 'text'
-        account type: 'BigInteger', sqlType: 'int4'
-        transactionDocument type: 'BigInteger', sqlType: 'int4'
-        postingKey sqlType: 'bpchar', type: 'char'
-    }
 }

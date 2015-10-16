@@ -16,15 +16,5 @@ class TransactionDocumentTemp {
         postingDate nullable: false
     }
 
-    static mapping = {
-        table 'transaction_document_temp'
-        version false
-        id type: 'long', sqlType: 'serial'
-        documentNumber type: 'long', sqlType: 'serial'
-        reference type: 'text'
-        documentDate type: 'date', sqlType: 'date'
-        postingDate type: 'date', sqlType: 'date'
-    }
-
     static hasMany = [transactions:TransactionTemp]
 }
