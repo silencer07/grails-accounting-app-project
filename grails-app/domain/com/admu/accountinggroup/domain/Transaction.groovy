@@ -21,5 +21,9 @@ class Transaction {
         description nullable: true
     }
 
+    static mapping = {
+        table 'transactions'
+    }
+
     static belongsTo = [account : Account, transactionDocument : TransactionDocument]
 }

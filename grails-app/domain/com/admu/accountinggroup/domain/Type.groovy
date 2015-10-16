@@ -10,6 +10,10 @@ class Type {
         description nullable: true
     }
 
+    static mapping = {
+        table 'types'
+    }
+
     String toString(){
         return name;
     }

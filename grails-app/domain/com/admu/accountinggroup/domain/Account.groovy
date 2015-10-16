@@ -26,6 +26,10 @@ class Account {
 
     static hasMany = [transactions:Transaction]
 
+    static mapping = {
+        table 'accounts'
+    }
+
     def getCodePrefixNumber(){
         return codePrefix.code
     }

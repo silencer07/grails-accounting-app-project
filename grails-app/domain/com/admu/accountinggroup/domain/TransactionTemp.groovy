@@ -21,5 +21,9 @@ class TransactionTemp {
         comment nullable: true
     }
 
+    static mapping = {
+        table 'transactions_temp'
+    }
+
     static belongsTo = [account : Account, transactionDocument : TransactionDocumentTemp]
 }

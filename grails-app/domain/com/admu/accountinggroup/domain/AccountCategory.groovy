@@ -20,6 +20,10 @@ class AccountCategory {
 
     static mappedBy = [accounts: 'codePrefix']
 
+    static mapping = {
+        table 'account_categories'
+    }
+
     String toString() {
         return name
     }

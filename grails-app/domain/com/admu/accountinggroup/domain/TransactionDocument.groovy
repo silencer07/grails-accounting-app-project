@@ -17,13 +17,7 @@ class TransactionDocument {
     }
 
     static mapping = {
-        table 'transaction_document'
-        version false
-        id type: 'long', sqlType: 'serial'
-        documentNumber type: 'long', sqlType: 'serial'
-        reference type: 'text'
-        documentDate type: 'date', sqlType: 'date'
-        postingDate type: 'date', sqlType: 'date'
+        table 'transaction_documents'
     }
 
     static hasMany = [transactions:Transaction]
