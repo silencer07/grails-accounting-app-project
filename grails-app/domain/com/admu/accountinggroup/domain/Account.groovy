@@ -17,8 +17,8 @@ class Account {
         side nullable: false
     }
 
-    static mustBeUniquePrefixSuffixCombo = { suffix, instance ->
-        return !Account.findByCodePrefixAndCodeSuffix(instance.prefix, suffix)
+    static mustBeUniquePrefixSuffixCombo = { codeSuffix, instance ->
+        return !Account.findByCodePrefixAndCodeSuffix(instance.codePrefix, codeSuffix)
     }
 
     static belongsTo = [codePrefix: AccountCategory]
@@ -27,5 +27,9 @@ class Account {
 
     def getCodePrefixNumber(){
         return codePrefix.code
+    }
+
+    String toString() {
+        return name
     }
 }

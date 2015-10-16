@@ -8,4 +8,8 @@ class Type {
     static constraints = {
         name unique: true, nullable: false
     }
+
+    String toString(){
+        return name;
+    }
 }

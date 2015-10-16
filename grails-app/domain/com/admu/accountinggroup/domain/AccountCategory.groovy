@@ -18,4 +18,8 @@ class AccountCategory {
     static hasMany = [accounts:Account]
 
     static mappedBy = [accounts: 'codePrefix']
+
+    String toString() {
+        return name
+    }
 }
