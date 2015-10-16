@@ -19,6 +19,7 @@ class TransactionTemp {
         postingKey nullable: false
         transactionDocument nullable: false
         comment nullable: true
+        description nullable: true
     }
 
     static mapping = {

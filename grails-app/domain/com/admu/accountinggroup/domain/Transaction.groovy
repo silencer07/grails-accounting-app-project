@@ -19,6 +19,7 @@ class Transaction {
         postingKey nullable: false
         transactionDocument nullable: false
         description nullable: true
+        description nullable: true
     }
 
     static mapping = {

@@ -3,15 +3,18 @@ package com.admu.accountinggroup.domain
 class TransactionDocumentTemp {
 
     BigDecimal balance
-    java.sql.Date documentDate
-    java.sql.Date postingDate
+    Date documentDate
+    String documentNumber
+    Date postingDate
     String reference
     boolean voidStatus
 
     static constraints = {
         balance nullable: false
         documentDate nullable: false
+        documentNumber nullable: false, unique: true
         postingDate nullable: false
+        reference nullable: true
     }
 
     static mapping = {
