@@ -18,6 +18,7 @@ class Transaction {
         account nullable: false
         postingKey nullable: false
         transactionDocument nullable: false
+        description nullable: true
     }
 
     static belongsTo = [account : Account, transactionDocument : TransactionDocument]

@@ -11,6 +11,7 @@ class AccountCategory {
         code unique: true, nullable: false
         name unique: true, nullable: false
         type nullable: false
+        description nullable: true
     }
 
     static belongsTo = [type:Type]

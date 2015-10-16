@@ -15,6 +15,7 @@ class Account {
         codeSuffix nullable: false , validator: mustBeUniquePrefixSuffixCombo
         name unique: true, nullable: false
         side nullable: false
+        description nullable:true
     }
 
     static mustBeUniquePrefixSuffixCombo = { codeSuffix, instance ->

@@ -7,6 +7,7 @@ class Type {
 
     static constraints = {
         name unique: true, nullable: false
+        description nullable: true
     }
 
     String toString(){

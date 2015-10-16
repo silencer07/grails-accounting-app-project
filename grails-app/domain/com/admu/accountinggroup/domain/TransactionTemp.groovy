@@ -18,6 +18,7 @@ class TransactionTemp {
         account nullable: false
         postingKey nullable: false
         transactionDocument nullable: false
+        comment nullable: true
     }
 
     static belongsTo = [account : Account, transactionDocument : TransactionDocumentTemp]
