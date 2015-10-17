@@ -4,7 +4,6 @@ class TransactionDocumentTemp {
 
     BigDecimal balance
     Date documentDate
-    String documentNumber
     Date postingDate = new Date()
     String reference
     boolean voidStatus
@@ -12,7 +11,6 @@ class TransactionDocumentTemp {
     static constraints = {
         balance nullable: false
         documentDate nullable: false
-        documentNumber nullable: false, unique: true
         postingDate nullable: false
         reference nullable: true
     }

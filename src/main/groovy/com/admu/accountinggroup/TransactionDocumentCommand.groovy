@@ -36,4 +36,10 @@ class TransactionDocumentCommand implements Validateable{
             return !empty && !hasInvalidEntry && creditTotal == debitTotal
         }
     }
+
+    def getBalance() {
+        return entries?.findAll {
+            it != null && Side.CR.equals(it.postingKey);
+        }?.sum { it?.amount ?: 0 };
+    }
 }
