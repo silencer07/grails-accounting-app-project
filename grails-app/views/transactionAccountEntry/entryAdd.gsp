@@ -9,6 +9,11 @@
     <body>
             <div class="content scaffold-list" role="main">
                 <h1>Create T-Account Entry</h1>
+                <div class="nav" role="navigation">
+                    <ul>
+                        <li><g:link class="home" action="index">Back</g:link></li>
+                    </ul>
+                </div>
                 <g:hasErrors bean="${cmd}">
                     <ul class="errors" role="alert">
                         <g:eachError bean="${cmd}" var="error">
@@ -38,15 +43,17 @@
                         </tr>
                         <g:if test="${!cmd?.entries}">
                             <tr>
-                                <td><g:select name="entries[0].accountId" from="${Account.list()}" optionKey="id"/></td>
+                                <td><g:select name="entries[0].accountId" from="${Account.list()}" optionKey="id"
+                                    optionValue="nameAndSide"/></td>
                                 <td><g:select name="entries[0].postingKey" from="${Side.values()}"/></td>
                                 <td><g:textField name="entries[0].amount"/></td>
                                 <td><g:textField name="entries[0].description"/></td>
                                 <td><g:textField name="entries[0].comments"/></td>
                             </tr>
                             <tr>
-                                <td><g:select name="entries[1].accountId" from="${Account.list()}" optionKey="id"/></td>
-                                <td><g:select name="entries[1].postingKey" from="${Side.values()}"/></td>
+                                <td><g:select name="entries[1].accountId" from="${Account.list()}" optionKey="id"
+                                    optionValue="nameAndSide"/></td>
+                                <td><g:select name="entries[1].postingKey" from="${Side.values()}" value="${Side.CR}"/></td>
                                 <td><g:textField name="entries[1].amount"/></td>
                                 <td><g:textField name="entries[1].description"/></td>
                                 <td><g:textField name="entries[1].comments"/></td>
@@ -55,8 +62,8 @@
                         <g:else>
                             <g:each in="${cmd?.entries}" var="entry">
                                 <tr>
-                                    <td><g:select name="accountId" from="${Account.list()}" optionKey="id"
-                                          value="${Account.get(entry.accountId) ?: Account.get(1)}"/></td>
+                                    <td><g:select name="accountId" from="${Account.list(order)}" optionKey="id"
+                                          value="${Account.get(entry.accountId) ?: Account.get(1)}" optionValue="nameAndSide"/></td>
                                     <td><g:select name="postingKey" from="${Side.values()}" value="${entry.postingKey}"/></td>
                                     <td><g:textField name="amount" value="${entry.amount}"/></td>
                                     <td><g:textField name="description" value="${entry.description}"/></td>
@@ -67,6 +74,7 @@
                     </table>
                     <fieldset class="buttons">
                         <g:submitButton name="Add" class="save"/>
+                        <input type="button" value="Add Row" class="edit"/>
                     </fieldset>
                 </g:form>
             </div>
