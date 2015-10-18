@@ -37,4 +37,8 @@ class Account {
     String toString() {
         return name
     }
+
+    String getNameAndSide(){
+        return "${name} - ${side}"
+    }
 }

@@ -1,5 +1,7 @@
 package com.admu.accountinggroup.domain
 
+import java.text.SimpleDateFormat
+
 class TransactionDocumentTemp {
 
     BigDecimal balance
@@ -17,7 +19,18 @@ class TransactionDocumentTemp {
 
     static mapping = {
         table 'transaction_documents_temp'
+        transactions sort: "postingKey", order : 'desc'
     }
 
     static hasMany = [transactions:TransactionTemp]
+
+    def getDocumentDateFormatted(){
+        def f = new SimpleDateFormat("MMM/dd")
+        return f.format(documentDate)
+    }
+
+    def getPostingDateFormatted(){
+        def f = new SimpleDateFormat("MMM/dd/yyyy")
+        return f.format(documentDate)
+    }
 }

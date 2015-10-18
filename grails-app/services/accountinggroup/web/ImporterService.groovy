@@ -3,6 +3,8 @@ package accountinggroup.web
 import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.domain.Account
 import com.admu.accountinggroup.domain.AccountCategory
+import com.admu.accountinggroup.domain.TransactionDocumentTemp
+import com.admu.accountinggroup.domain.TransactionTemp
 import com.admu.accountinggroup.domain.Type
 import grails.transaction.Transactional
 import org.apache.commons.csv.CSVFormat
@@ -69,5 +71,65 @@ class ImporterService {
         importTypes();
         importAccountCategories();
         importAccounts();
+        createTempTransactionAccountEntries()
+    }
+
+    private void createTempTransactionAccountEntries(){
+        def debitAccounts = Account.findAllBySide(Side.DR)
+        def creditAccounts = Account.findAllBySide(Side.CR)
+
+        TransactionDocumentTemp doc = new TransactionDocumentTemp()
+        doc.documentDate = new Date()
+        doc.reference = "Test Entry"
+        doc.balance = 1000
+
+        def debit = new TransactionTemp()
+        debit.transactionDocument = doc
+        debit.amount = 1000
+        debit.comment = "Test Comment"
+        debit.description = "Test Desc"
+        debit.postingKey = Side.DR
+        debit.account = debitAccounts[5]
+        doc.addToTransactions(debit)
+
+        def credit = new TransactionTemp(debit.properties)
+        credit.postingKey = Side.CR
+        credit.account = creditAccounts[5]
+        credit.amount = 500
+        doc.addToTransactions(credit)
+
+        def credit2 = new TransactionTemp(credit.properties)
+        credit2.account = creditAccounts[6]
+        doc.addToTransactions(credit2)
+
+        doc.save()
+
+        addOtherEntries(debitAccounts, creditAccounts)
+    }
+
+    private def addOtherEntries(debitAccounts, creditAccounts){
+        for(int i = 0; i < 5 ;i++) {
+            def amount = (i + 1) * 500
+            def doc = new TransactionDocumentTemp()
+            doc.documentDate = new Date()
+            doc.reference = "Test Entry ${i}"
+            doc.balance = amount
+
+            def debit = new TransactionTemp()
+            debit.transactionDocument = doc
+            debit.amount = amount
+            debit.comment = "Test Comment ${i}"
+            debit.description = "Test Desc ${i}"
+            debit.postingKey = Side.DR
+            debit.account = debitAccounts[i]
+            doc.addToTransactions(debit)
+
+            def credit = new TransactionTemp(debit.properties)
+            credit.postingKey = Side.CR
+            credit.account = creditAccounts[i]
+            doc.addToTransactions(credit)
+
+            doc.save()
+        }
     }
 }

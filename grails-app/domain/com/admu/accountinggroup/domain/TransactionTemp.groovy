@@ -16,7 +16,6 @@ class TransactionTemp {
         amount nullable: false, min: BigDecimal.ZERO
         postingKey nullable: false
         account nullable: false
-        postingKey nullable: false
         transactionDocument nullable: false
         comment nullable: true
         description nullable: true

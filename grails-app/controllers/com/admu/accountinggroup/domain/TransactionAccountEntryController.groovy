@@ -7,11 +7,17 @@ import com.admu.accountinggroup.TransactionDocumentCommand
  */
 class TransactionAccountEntryController {
 
-    def index() {}
+    def index() {
+        return [documents : TransactionDocumentTemp.list()]
+    }
+
+    def entryAdd(){
+
+    }
 
     def saveTransactionEntry(TransactionDocumentCommand cmd ){
         if (cmd.hasErrors()) {
-            render view: 'index', model: [cmd : cmd]
+            render view: 'entryAdd', model: [cmd : cmd]
             return
         }
 
@@ -31,6 +37,6 @@ class TransactionAccountEntryController {
         transactionDocument.balance = cmd.balance
         transactionDocument.save()
 
-        redirect(url: '/')
+        redirect(action: 'index')
     }
 }

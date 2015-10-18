@@ -16,7 +16,6 @@ class Transaction {
         amount nullable: false, min: BigDecimal.ZERO
         postingKey nullable: false
         account nullable: false
-        postingKey nullable: false
         transactionDocument nullable: false
         description nullable: true
         description nullable: true
