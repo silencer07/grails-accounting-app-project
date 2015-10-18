@@ -79,7 +79,7 @@ class ImporterService {
         def creditAccounts = Account.findAllBySide(Side.CR)
 
         TransactionDocumentTemp doc = new TransactionDocumentTemp()
-        doc.documentDate = new Date()
+        doc.documentDate = new Date() - 6
         doc.reference = "Test Entry"
         doc.balance = 1000
 
@@ -111,7 +111,7 @@ class ImporterService {
         for(int i = 0; i < 5 ;i++) {
             def amount = (i + 1) * 500
             def doc = new TransactionDocumentTemp()
-            doc.documentDate = new Date()
+            doc.documentDate = new Date() - (5 - i)
             doc.reference = "Test Entry ${i}"
             doc.balance = amount
 

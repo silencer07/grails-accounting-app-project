@@ -1,6 +1,7 @@
 package com.admu.accountinggroup.domain
 
 import com.admu.accountinggroup.TransactionDocumentCommand
+import grails.transaction.Transactional
 
 /**
  * This class will be the controller for T-Account entry
@@ -38,5 +39,28 @@ class TransactionAccountEntryController {
         transactionDocument.save()
 
         redirect(action: 'index')
+    }
+
+    @Transactional
+    def approveTempEntries(){
+        TransactionDocumentTemp.list().each { tempDoc ->
+            def doc = new TransactionDocument()
+            bindData(doc, tempDoc.properties, [exclude: ['transactions','documentDateFormatted', 'postingDateFormatted']])
+
+            tempDoc.transactions.each { tempTrans ->
+                def trans = new Transaction(tempTrans.properties)
+                bindData(trans, tempTrans.properties, [exclude : ['transactionDocument', 'transactionDocumentId', 'accountId']])
+                trans.transactionDocument = doc
+                doc.addToTransactions(trans)
+            }
+            doc.save()
+            tempDoc.delete()
+        }
+        //do approving here
+        redirect(action: 'approvedEntries')
+    }
+
+    def approvedEntries(){
+        return [documents : TransactionDocument.list()]
     }
 }

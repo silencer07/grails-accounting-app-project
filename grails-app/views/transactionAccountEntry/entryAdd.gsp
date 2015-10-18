@@ -12,6 +12,7 @@
                 <div class="nav" role="navigation">
                     <ul>
                         <li><g:link class="home" action="index">Back</g:link></li>
+                        <li><g:link class="home" action="approvedEntries">Approved Entries</g:link></li>
                     </ul>
                 </div>
                 <g:hasErrors bean="${cmd}">

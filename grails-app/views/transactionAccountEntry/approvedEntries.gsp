@@ -4,15 +4,15 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>T-Account Pending Entries</title>
+        <title>T-Account Approved Entries</title>
     </head>
     <body>
             <div class="content scaffold-list" role="main">
-                <h1>T-Account Pending Entries</h1>
+                <h1>T-Account Approved Entries</h1>
                 <div class="nav" role="navigation">
                     <ul>
+                        <li><g:link class="home" action="index">Back</g:link></li>
                         <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
-                        <li><g:link class="home" action="approvedEntries">Approved Entries List</g:link></li>
                     </ul>
                 </div>
                 <g:if test="${documents}">
@@ -68,6 +68,10 @@
                         <tr>
                         </tr>
                     </table>
+                    <fieldset class="buttons">
+                        <input type="button" value="Approve" class="save"
+                           onclick="location.href = '${createLink(action:'approveTempEntries')}';"/>
+                    </fieldset>
                 </g:if>
                 <g:else>
                     <p align="center">
