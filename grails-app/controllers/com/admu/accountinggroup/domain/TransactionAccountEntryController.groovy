@@ -64,9 +64,9 @@ class TransactionAccountEntryController {
 
         results.normal = benchmarkDB({accountSummaryService.createSummaryPerAccount()})
         results.mongo = benchmarkDB({accountSummaryService.createSummaryPerAccountInMongoDB()})
-        results.tableview = benchmarkDB({AccountSummary.list()})
+        results.tableView = benchmarkDB({AccountSummary.list()})
 
-        println results
+        session.results = results
 
         redirect(action: 'approvedEntries')
     }
@@ -86,5 +86,8 @@ class TransactionAccountEntryController {
 
     def approvedEntries(){
         return [documents : TransactionDocument.list()]
+    }
+
+    def chart() {
     }
 }

@@ -13,6 +13,7 @@
                     <ul>
                         <li><g:link class="home" action="index">Back</g:link></li>
                         <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
+                        <li><g:link class="home" action="chart">Show Benchmark</g:link></li>
                     </ul>
                 </div>
                 <g:if test="${documents}">

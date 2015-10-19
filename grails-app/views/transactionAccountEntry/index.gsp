@@ -14,6 +14,7 @@
                         <li><g:link class="create" action="approveTempEntries">Approve Pending Entries</g:link></li>
                         <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
                         <li><g:link class="home" action="approvedEntries">Approved Entries List</g:link></li>
+                        <li><g:link class="home" action="chart">Show Benchmark</g:link></li>
                     </ul>
                 </div>
                 <br/>

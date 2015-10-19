@@ -13,6 +13,7 @@
                     <ul>
                         <li><g:link class="home" action="index">Back</g:link></li>
                         <li><g:link class="home" action="approvedEntries">Approved Entries</g:link></li>
+                        <li><g:link class="home" action="chart">Show Benchmark</g:link></li>
                     </ul>
                 </div>
                 <g:hasErrors bean="${cmd}">
