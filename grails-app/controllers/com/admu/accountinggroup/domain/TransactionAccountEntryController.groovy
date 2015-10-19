@@ -60,23 +60,28 @@ class TransactionAccountEntryController {
             tempDoc.delete()
         }
 
-        def normalInsertBenchmark = benchmark {
-            accountSummaryService.createSummaryPerAccount()
-        }
+        def results = [:]
 
-//        normalInsertBenchmark.eachWithIndex { it, index ->
-//            println "real: ${it.time.real}"
-//        }
+        results.normal = benchmarkDB({accountSummaryService.createSummaryPerAccount()})
+        results.mongo = benchmarkDB({accountSummaryService.createSummaryPerAccountInMongoDB()})
+        results.tableview = benchmarkDB({AccountSummary.list()})
 
-        normalInsertBenchmark.prettyPrint()
-
-        def mongoDbInsertBenchmark = benchmark {
-            accountSummaryService.createSummaryPerAccountInMongoDB()
-        }
-
-        mongoDbInsertBenchmark.prettyPrint()
+        println results
 
         redirect(action: 'approvedEntries')
+    }
+
+    private def benchmarkDB(Closure c){
+        def b = benchmark {
+           c()
+        }
+        b.prettyPrint()
+
+        def real
+        b.eachWithIndex { it, index ->
+            real = it.time.real
+        }
+        return real
     }
 
     def approvedEntries(){

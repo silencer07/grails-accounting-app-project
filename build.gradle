@@ -77,6 +77,7 @@ dependencies {
     compile 'org.gperfutils:gbench:0.4.3-groovy-2.4'
     compile 'com.gmongo:gmongo:1.5'
     compile 'org.mongodb:mongo-java-driver:3.1.0'
+    runtime 'org.grails.plugins:database-migration:2.0.0.RC1'
 }
 
 task wrapper(type: Wrapper) {
