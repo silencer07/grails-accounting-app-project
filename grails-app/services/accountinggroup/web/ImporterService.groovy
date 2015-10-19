@@ -21,6 +21,7 @@ class ImporterService {
     private static final String ACCOUNTS_CSV = "accounts.csv";
 
     def grailsApplication
+    def mongo
 
     private void importTypes(){
         File file = grailsApplication.mainContext.getResource(TYPES_CSV).file
@@ -72,6 +73,12 @@ class ImporterService {
         importAccountCategories();
         importAccounts();
         createTempTransactionAccountEntries()
+        dropMongoDBCache()
+    }
+
+    private def dropMongoDBCache() {
+        def db = mongo.getDB("accountinggroup-web")
+        db.dropDatabase()
     }
 
     private void createTempTransactionAccountEntries(){

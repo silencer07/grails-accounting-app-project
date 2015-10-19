@@ -11,10 +11,14 @@
                 <h1>T-Account Pending Entries</h1>
                 <div class="nav" role="navigation">
                     <ul>
+                        <li><g:link class="create" action="approveTempEntries">Approve Pending Entries</g:link></li>
                         <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
                         <li><g:link class="home" action="approvedEntries">Approved Entries List</g:link></li>
                     </ul>
                 </div>
+                <br/>
+                <div>&nbsp;&nbsp;<b>Approving Entries takes time due to benchmarking. see application logs</b></div>
+                <br/>
                 <g:if test="${documents}">
                     <table border="1">
                         <tr>

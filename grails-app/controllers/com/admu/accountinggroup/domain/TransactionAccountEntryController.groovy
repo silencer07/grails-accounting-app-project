@@ -8,6 +8,8 @@ import grails.transaction.Transactional
  */
 class TransactionAccountEntryController {
 
+    def accountSummaryService
+
     def index() {
         return [documents : TransactionDocumentTemp.list()]
     }
@@ -43,20 +45,37 @@ class TransactionAccountEntryController {
 
     @Transactional
     def approveTempEntries(){
+        ////not sure if writing should be benchmarked
         TransactionDocumentTemp.list().each { tempDoc ->
             def doc = new TransactionDocument()
-            bindData(doc, tempDoc.properties, [exclude: ['transactions','documentDateFormatted', 'postingDateFormatted']])
+            bindData(doc, tempDoc.properties, [exclude: ['transactions','documentDateFormatted', 'postingDateFormatted', 'mongo']])
 
             tempDoc.transactions.each { tempTrans ->
                 def trans = new Transaction(tempTrans.properties)
-                bindData(trans, tempTrans.properties, [exclude : ['transactionDocument', 'transactionDocumentId', 'accountId']])
+                bindData(trans, tempTrans.properties, [exclude : ['transactionDocument', 'transactionDocumentId', 'accountId', 'mongo']])
                 trans.transactionDocument = doc
                 doc.addToTransactions(trans)
             }
-            doc.save()
+            doc.save(flush:true)
             tempDoc.delete()
         }
-        //do approving here
+
+        def normalInsertBenchmark = benchmark {
+            accountSummaryService.createSummaryPerAccount()
+        }
+
+//        normalInsertBenchmark.eachWithIndex { it, index ->
+//            println "real: ${it.time.real}"
+//        }
+
+        normalInsertBenchmark.prettyPrint()
+
+        def mongoDbInsertBenchmark = benchmark {
+            accountSummaryService.createSummaryPerAccountInMongoDB()
+        }
+
+        mongoDbInsertBenchmark.prettyPrint()
+
         redirect(action: 'approvedEntries')
     }
 
