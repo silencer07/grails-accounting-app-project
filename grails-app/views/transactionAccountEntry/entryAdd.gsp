@@ -5,6 +5,19 @@
     <head>
         <meta name="layout" content="main" />
         <title>Create T-Account Entry</title>
+    <script>
+        function addRow() {
+            var $tableBody = $("#entryDataBody");
+            var rowCount = $tableBody.children().length;
+            var $lastRow = $tableBody.children("tr:last");
+
+            var toAppend = $lastRow.html();
+            toAppend = toAppend.split("[" + (rowCount - 1) + "]").join("[" + rowCount +"]");
+
+            $lastRow.after("<tr>" + toAppend + "</tr>");
+            $("#add-row").prop('enabled',  true);
+        }
+    </script>
     </head>
     <body>
             <div class="content scaffold-list" role="main">
@@ -43,40 +56,42 @@
                             <th>Description</th>
                             <th>Comments</th>
                         </tr>
-                        <g:if test="${!cmd?.entries}">
-                            <tr>
-                                <td><g:select name="entries[0].accountId" from="${Account.list()}" optionKey="id"
-                                    optionValue="nameAndSide"/></td>
-                                <td><g:select name="entries[0].postingKey" from="${Side.values()}"/></td>
-                                <td><g:textField name="entries[0].amount"/></td>
-                                <td><g:textField name="entries[0].description"/></td>
-                                <td><g:textField name="entries[0].comments"/></td>
-                            </tr>
-                            <tr>
-                                <td><g:select name="entries[1].accountId" from="${Account.list()}" optionKey="id"
-                                    optionValue="nameAndSide"/></td>
-                                <td><g:select name="entries[1].postingKey" from="${Side.values()}" value="${Side.CR}"/></td>
-                                <td><g:textField name="entries[1].amount"/></td>
-                                <td><g:textField name="entries[1].description"/></td>
-                                <td><g:textField name="entries[1].comments"/></td>
-                            </tr>
-                        </g:if>
-                        <g:else>
-                            <g:each in="${cmd?.entries}" var="entry">
+                        <tbody id="entryDataBody">
+                            <g:if test="${!cmd?.entries}">
                                 <tr>
-                                    <td><g:select name="accountId" from="${Account.list(order)}" optionKey="id"
-                                          value="${Account.get(entry.accountId) ?: Account.get(1)}" optionValue="nameAndSide"/></td>
-                                    <td><g:select name="postingKey" from="${Side.values()}" value="${entry.postingKey}"/></td>
-                                    <td><g:textField name="amount" value="${entry.amount}"/></td>
-                                    <td><g:textField name="description" value="${entry.description}"/></td>
-                                    <td><g:textField name="comments" value="${entry.comments}"/></td>
+                                    <td><g:select name="entries[0].accountId" from="${Account.list()}" optionKey="id"
+                                        optionValue="nameAndSide"/></td>
+                                    <td><g:select name="entries[0].postingKey" from="${Side.values()}"/></td>
+                                    <td><g:textField name="entries[0].amount"/></td>
+                                    <td><g:textField name="entries[0].description"/></td>
+                                    <td><g:textField name="entries[0].comments"/></td>
                                 </tr>
-                            </g:each>
-                        </g:else>
+                                <tr>
+                                    <td><g:select name="entries[1].accountId" from="${Account.list()}" optionKey="id"
+                                        optionValue="nameAndSide"/></td>
+                                    <td><g:select name="entries[1].postingKey" from="${Side.values()}" value="${Side.CR}"/></td>
+                                    <td><g:textField name="entries[1].amount"/></td>
+                                    <td><g:textField name="entries[1].description"/></td>
+                                    <td><g:textField name="entries[1].comments"/></td>
+                                </tr>
+                            </g:if>
+                            <g:else>
+                                <g:each in="${cmd?.entries}" var="entry" status="i">
+                                    <tr>
+                                        <td><g:select name="entries[${i}].accountId" from="${Account.list(order)}" optionKey="id"
+                                              value="${entry.accountId ?: 1}" optionValue="nameAndSide"/></td>
+                                        <td><g:select name="entries[${i}].postingKey" from="${Side.values()}" value="${entry.postingKey}"/></td>
+                                        <td><g:textField name="entries[${i}].amount" value="${entry.amount}"/></td>
+                                        <td><g:textField name="entries[${i}].description" value="${entry.description}"/></td>
+                                        <td><g:textField name="entries[${i}].comments" value="${entry.comments}"/></td>
+                                    </tr>
+                                </g:each>
+                            </g:else>
+                        </tbody>
                     </table>
                     <fieldset class="buttons">
                         <g:submitButton name="Add" class="save"/>
-                        <input type="button" value="Add Row" class="edit"/>
+                        <input type="button" id="add-row" value="Add Row" class="edit" onclick="addRow()"/>
                     </fieldset>
                 </g:form>
             </div>

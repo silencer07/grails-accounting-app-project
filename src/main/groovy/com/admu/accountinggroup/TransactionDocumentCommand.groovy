@@ -44,6 +44,6 @@ class TransactionDocumentCommand implements Validateable{
     def getBalance() {
         return entries?.findAll {
             it != null && Side.CR.equals(it.postingKey);
-        }?.sum { it?.amount ?: 0 };
+        }?.sum { it?.amount ?: 0 } ?: 0
     }
 }
