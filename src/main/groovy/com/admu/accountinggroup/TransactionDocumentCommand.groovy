@@ -17,7 +17,7 @@ class TransactionDocumentCommand implements Validateable{
 
     static constraints = {
         reference nullable:true
-        documentDate nullable : true
+        documentDate nullable : false
         entries nullable : false, validator: { entries, instance ->
             def empty = entries.isEmpty();
 
@@ -33,7 +33,11 @@ class TransactionDocumentCommand implements Validateable{
                 it != null && Side.DR.equals(it.postingKey);
             }?.sum { it?.amount ?: 0 };
 
-            return !empty && !hasInvalidEntry && creditTotal == debitTotal
+            if(!empty && !hasInvalidEntry && creditTotal == debitTotal) {
+                return true
+            }
+
+            return 'notBalancedOrInvalid'
         }
     }
 
