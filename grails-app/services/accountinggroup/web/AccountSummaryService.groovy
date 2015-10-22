@@ -3,6 +3,7 @@ package accountinggroup.web
 import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.domain.Account
 import com.mongodb.BasicDBObject
+import com.mongodb.DBCursor
 import grails.transaction.Transactional
 
 @Transactional
@@ -31,10 +32,15 @@ class AccountSummaryService {
         return summaries
     }
 
-    def createSummaryPerAccountInMongoDB(){
-        def summaries = createSummaryPerAccount()
+    def createSummaryPerAccountInMongoDB(Map summaries){
         def db = mongo.getDB("accountinggroup-web")
         def summariesDbCollection = db.getCollection(DB_KEY)
         summariesDbCollection.insert(new BasicDBObject(summaries))
+    }
+
+    DBCursor readSummaryPerAccountInMongoDB(){
+        def db = mongo.getDB("accountinggroup-web")
+        def summariesDbCollection = db.getCollection(DB_KEY)
+        return summariesDbCollection.find();
     }
 }

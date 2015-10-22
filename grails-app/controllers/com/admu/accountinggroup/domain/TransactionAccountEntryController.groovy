@@ -45,7 +45,38 @@ class TransactionAccountEntryController {
 
     @Transactional
     def approveTempEntries(){
-        ////not sure if writing should be benchmarked
+        def results = [:]
+
+        results.normalWrite = benchmarkDB({
+            saveDBEntries()
+        })
+
+        Map summaries
+        results.normalRead = benchmarkDB({
+            summaries = accountSummaryService.createSummaryPerAccount()
+        })
+
+        results.mongoWrite = benchmarkDB({
+            accountSummaryService.createSummaryPerAccountInMongoDB(summaries)
+        })
+
+        results.mongoRead = benchmarkDB({
+            accountSummaryService.readSummaryPerAccountInMongoDB()
+        })
+
+        //they are the same since table view is just
+        results.tableViewWrite = results.normalWrite;
+        results.tableViewRead = benchmarkDB({
+            //this is the view table mapped via ORM
+            AccountSummary.list()
+        })
+
+        session.results = results
+
+        redirect(action: 'approvedEntries')
+    }
+
+    private def saveDBEntries(){
         TransactionDocumentTemp.list().each { tempDoc ->
             def doc = new TransactionDocument()
             bindData(doc, tempDoc.properties, [exclude: ['transactions','documentDateFormatted', 'postingDateFormatted', 'mongo']])
@@ -57,18 +88,9 @@ class TransactionAccountEntryController {
                 doc.addToTransactions(trans)
             }
             doc.save(flush:true)
-            tempDoc.delete()
         }
 
-        def results = [:]
-
-        results.normal = benchmarkDB({accountSummaryService.createSummaryPerAccount()})
-        results.mongo = benchmarkDB({accountSummaryService.createSummaryPerAccountInMongoDB()})
-        results.tableView = benchmarkDB({AccountSummary.list()})
-
-        session.results = results
-
-        redirect(action: 'approvedEntries')
+        TransactionDocumentTemp.deleteAll()
     }
 
     private def benchmarkDB(Closure c){

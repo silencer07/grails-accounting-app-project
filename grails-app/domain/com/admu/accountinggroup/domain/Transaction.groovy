@@ -18,7 +18,7 @@ class Transaction {
         account nullable: false
         transactionDocument nullable: false
         description nullable: true
-        description nullable: true
+        comment nullable: true
     }
 
     static mapping = {

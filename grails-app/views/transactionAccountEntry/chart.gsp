@@ -11,10 +11,10 @@
         google.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
-                ['Scenario - in ms', 'Normal Select', 'MongoDB', 'Table View'],
-                ['A', isEmptyObject(${session.results.normal}, 0), isEmptyObject(${session.results.mongo}, 0), isEmptyObject(${session.results.tableView}, 0) ],
-                ['B', 117081, 460811, 250881],
-                ['C', 660991, 112091, 300991],
+                ['Real Figure', 'Read', 'Write'],
+                ['Normal SQL', isEmptyObject(${session.results.normalRead}, 0), isEmptyObject(${session.results.normalWrite}, 0)],
+                ['MongoDB', isEmptyObject(${session.results.mongoRead}, 0), isEmptyObject(${session.results.mongoWrite})],
+                ['Table View', isEmptyObject(${session.results.tableViewRead}, 0), isEmptyObject(${session.results.tableViewWrite}, 0)],
             ]);
 
             var options = {
@@ -30,7 +30,7 @@
         }
 
         function isEmptyObject(value, defaultValue){
-            return $.isEmptyObject(value) == false ? defaultValue : value;
+            return ($.isEmptyObject(value) == false ? defaultValue : value);
         }
     </script>
 </head>
@@ -44,6 +44,31 @@
         </ul>
     </div>
     <div id="columnchart_material" style="width: 900px; height: 500px; padding-left: 50px; padding-top: 50px"></div>
+    <br/>
+    <table>
+        <thead>
+            <th>Storage Technology</th>
+            <th>Read</th>
+            <th>Write</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Normal SQL</td>
+                <td>${session.results.normalRead}</td>
+                <td>${session.results.normalWrite}</td>
+            </tr>
+            <tr>
+                <td>MongoDB</td>
+                <td>${session.results.mongoRead}</td>
+                <td>${session.results.mongoWrite}</td>
+            </tr>
+            <tr>
+                <td>Table View</td>
+                <td>${session.results.tableViewRead}</td>
+                <td>${session.results.tableViewWrite}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
