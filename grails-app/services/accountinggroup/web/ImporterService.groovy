@@ -24,9 +24,9 @@ class ImporterService {
     def mongo
 
     private void importTypes(){
-        File file = grailsApplication.mainContext.getResource(TYPES_CSV).file
+        def inputStream = this.class.getClassLoader().getResourceAsStream(TYPES_CSV)
         Iterable<CSVRecord> records =
-                CSVFormat.EXCEL.parse(new FileReader(file));
+                CSVFormat.EXCEL.parse(new InputStreamReader(inputStream));
         for (CSVRecord record : records) {
             def type = new Type();
             type.id = record.get(0);
@@ -37,9 +37,9 @@ class ImporterService {
     }
 
     private void importAccountCategories(){
-        File file = grailsApplication.mainContext.getResource(ACCOUNT_CATEGORIES_CSV).file
+        def inputStream = this.class.getClassLoader().getResourceAsStream(ACCOUNT_CATEGORIES_CSV)
         Iterable<CSVRecord> records =
-                CSVFormat.EXCEL.parse(new FileReader(file));
+                CSVFormat.EXCEL.parse(new InputStreamReader(inputStream));
         for (CSVRecord record : records) {
             def accountCategory = new AccountCategory();
             accountCategory.code = Integer.parseInt(record.get(0));
@@ -54,9 +54,9 @@ class ImporterService {
     }
 
     private void importAccounts(){
-        File file = grailsApplication.mainContext.getResource(ACCOUNTS_CSV).file
+        def inputStream = this.class.getClassLoader().getResourceAsStream(ACCOUNTS_CSV)
         Iterable<CSVRecord> records =
-                CSVFormat.EXCEL.parse(new FileReader(file));
+                CSVFormat.EXCEL.parse(new InputStreamReader(inputStream));
         for (CSVRecord record : records) {
             def account = new Account()
             account.codePrefix = AccountCategory.findByCode(record.get(0).toLong());
