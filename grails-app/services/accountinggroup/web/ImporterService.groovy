@@ -6,9 +6,15 @@ import com.admu.accountinggroup.domain.AccountCategory
 import com.admu.accountinggroup.domain.TransactionDocumentTemp
 import com.admu.accountinggroup.domain.TransactionTemp
 import com.admu.accountinggroup.domain.Type
+import com.gmongo.GMongo
+import com.mongodb.BasicDBObject
+import com.mongodb.DBObject
+import grails.converters.JSON
 import grails.transaction.Transactional
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
+
+import com.mongodb.util.JSON as MongoJSON
 
 /**
  * Copy from last deliverable
@@ -69,11 +75,11 @@ class ImporterService {
     }
 
     void startImport(){
+        dropMongoDBCache()
         importTypes();
         importAccountCategories();
         importAccounts();
         createTempTransactionAccountEntries()
-        dropMongoDBCache()
     }
 
     private def dropMongoDBCache() {
@@ -111,10 +117,17 @@ class ImporterService {
 
         doc.save()
 
+        def gmongo = new GMongo()
+        def db = gmongo.getDB(AccountSummaryService.DB_KEY)
+        def dbObject = (DBObject) MongoJSON.parse((doc as JSON).toString())
+        db.transactions << dbObject
+
         addOtherEntries(debitAccounts, creditAccounts)
     }
 
     private def addOtherEntries(debitAccounts, creditAccounts){
+        def gmongo = new GMongo()
+        def db = gmongo.getDB(AccountSummaryService.DB_KEY)
         for(int i = 0; i < 5 ;i++) {
             def amount = (i + 1) * 500
             def doc = new TransactionDocumentTemp()
@@ -137,6 +150,9 @@ class ImporterService {
             doc.addToTransactions(credit)
 
             doc.save()
+
+            def dbObject = (DBObject) MongoJSON.parse((doc as JSON).toString())
+            db.transactions << dbObject
         }
     }
 }

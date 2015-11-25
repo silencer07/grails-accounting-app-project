@@ -10,6 +10,7 @@ class Transaction {
     String description
     Side postingKey
     TransactionDocument transactionDocument
+    String uuid = UUID.randomUUID().toString()
 
 
     static constraints = {

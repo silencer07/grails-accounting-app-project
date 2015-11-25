@@ -9,6 +9,7 @@ class TransactionDocumentTemp {
     Date postingDate = new Date()
     String reference
     boolean voidStatus
+    String uuid = UUID.randomUUID().toString()
 
     static constraints = {
         balance nullable: false

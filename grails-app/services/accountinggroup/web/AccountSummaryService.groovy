@@ -9,7 +9,7 @@ import grails.transaction.Transactional
 @Transactional
 class AccountSummaryService {
 
-    public static final String DB_KEY = "summaries"
+    public static final String DB_KEY = "accountinggroup-web"
 
     def mongo
 
@@ -33,14 +33,14 @@ class AccountSummaryService {
     }
 
     def createSummaryPerAccountInMongoDB(Map summaries){
-        def db = mongo.getDB("accountinggroup-web")
-        def summariesDbCollection = db.getCollection(DB_KEY)
+        def db = mongo.getDB(DB_KEY)
+        def summariesDbCollection = db.getCollection("summaries")
         summariesDbCollection.insert(new BasicDBObject(summaries))
     }
 
     DBCursor readSummaryPerAccountInMongoDB(){
-        def db = mongo.getDB("accountinggroup-web")
-        def summariesDbCollection = db.getCollection(DB_KEY)
+        def db = mongo.getDB(DB_KEY)
+        def summariesDbCollection = db.getCollection("summaries")
         return summariesDbCollection.find();
     }
 }
