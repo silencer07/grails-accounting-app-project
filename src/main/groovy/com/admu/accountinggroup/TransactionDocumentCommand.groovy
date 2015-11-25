@@ -19,6 +19,15 @@ class TransactionDocumentCommand implements Validateable{
         reference nullable:true
         documentDate nullable : false
         entries nullable : false, validator: { entries, instance ->
+
+            List<Long> entryAccountIdList = entries*.accountId
+            Set<Long> entryAccountIdSet = new HashSet<>(entryAccountIdList)
+
+            if(entryAccountIdList.size() != entryAccountIdSet.size())
+            {
+                return 'duplicateAccountFound'
+            }
+
             def empty = entries.isEmpty();
 
             def hasInvalidEntry = entries?.find {
