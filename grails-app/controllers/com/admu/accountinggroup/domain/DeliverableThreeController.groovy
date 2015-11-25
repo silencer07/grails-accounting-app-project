@@ -1,17 +1,16 @@
 package com.admu.accountinggroup.domain
 
 import com.admu.accountinggroup.TransactionDocumentCommand
-import grails.transaction.Transactional
 
 /**
  * This class will be the controller for T-Account entry
  */
 class DeliverableThreeController {
 
-    def accountSummaryService
+    def mongoDBService
 
     def index() {
-        return [documents : TransactionDocumentTemp.list()]
+        return [documents : mongoDBService.findAllTransactions()]
     }
 
     def entryAdd(){

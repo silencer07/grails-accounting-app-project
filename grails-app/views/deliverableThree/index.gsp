@@ -1,5 +1,6 @@
 <%@page import="com.admu.accountinggroup.domain.*" %>
 <%@page import="com.admu.accountinggroup.*" %>
+<%@page import="com.admu.accountinggroup.utils.DateUtils" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +28,7 @@
                         </tr>
                         <g:each in="${documents}" var="doc">
                             <tr>
-                                <td><b>Ref. id: ${doc.id}</b></td>
+                                <td></td>
                                 <td>Ref: ${doc.reference}</td>
                                 <td></td>
                                 <td></td>
@@ -38,17 +39,17 @@
                                 <tr>
                                     <td>
                                         <g:if test="${i == 0}">
-                                           ${doc.documentDateFormatted}
+                                           <g:formatDate format="MM/dd" date="${DateUtils.convertToDate(doc.documentDate)}"/>
                                         </g:if>
                                     </td>
-                                    <td>${transaction.account}</td>
+                                    <td>${transaction.account.name}</td>
                                     <td style="text-align:right;">
-                                        <g:if test="${Side.DR == transaction.postingKey}">
+                                        <g:if test="${Side.DR == Side.valueOf(transaction.postingKey.name)}">
                                             ${transaction.amount}
                                         </g:if>
                                     </td>
                                     <td style="text-align:right;">
-                                        <g:if test="${Side.CR == transaction.postingKey}">
+                                        <g:if test="${Side.CR == Side.valueOf(transaction.postingKey.name)}">
                                             ${transaction.amount}
                                         </g:if>
                                     </td>

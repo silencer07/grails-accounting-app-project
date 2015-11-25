@@ -3,7 +3,7 @@ import com.admu.accountinggroup.domain.TransactionTemp
 import grails.rest.render.json.JsonCollectionRenderer
 import grails.rest.render.json.JsonRenderer
 
-def exclusionList = ['id','class', 'account']
+def exclusionList = ['id','class']
 
 // Place your Spring DSL code here
 beans = {

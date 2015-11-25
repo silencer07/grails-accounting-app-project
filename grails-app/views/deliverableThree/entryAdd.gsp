@@ -37,7 +37,7 @@
 
                 <g:form controller="transactionAccountEntry" action="saveTransactionEntry" >
                     <div class="fieldcontain">
-                        <label for="description">Ref. Description</label>
+                        <label for="reference">Ref. Description</label>
                         <g:textField name="reference" value="${cmd?.reference}"/>
                     </div>
                     <div class="fieldcontain required">
