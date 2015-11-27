@@ -11,11 +11,13 @@ import org.apache.commons.collections.Factory
 
 class TransactionDocumentCommand implements Validateable{
 
+    String uuid
     String reference
     Date documentDate = new Date()
     List<TransactionEntryCommand> entries = ListUtils.lazyList([], {new TransactionEntryCommand()} as Factory)
 
     static constraints = {
+        uuid nullable:true
         reference nullable:true
         documentDate nullable : false
         entries nullable : false, validator: { entries, instance ->

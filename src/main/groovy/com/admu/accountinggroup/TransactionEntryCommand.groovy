@@ -14,6 +14,7 @@ class TransactionEntryCommand implements Validateable{
     BigDecimal amount
     String description
     String comments
+    String uuid
 
     static constraints = {
         accountId nullable:false, min:1L , validator : { Account.findById(it) != null }
@@ -21,5 +22,6 @@ class TransactionEntryCommand implements Validateable{
         amount nullable:false, min: BigDecimal.ONE
         description nullable:true
         comments nullable:true
+        uuid nullable:true
     }
 }

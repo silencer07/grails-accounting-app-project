@@ -1,9 +1,13 @@
 package com.admu.accountinggroup.domain
 
+import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.TransactionDocumentCommand
+import com.admu.accountinggroup.TransactionEntryCommand
+import com.admu.accountinggroup.utils.DateUtils
 
 /**
  * This class will be the controller for T-Account entry
+ * TODO: optimize toJSON of various classes, expiration date
  */
 class DeliverableThreeController {
 
@@ -51,5 +55,30 @@ class DeliverableThreeController {
 
     def updateTransactionEntry(TransactionDocumentCommand cmd){
         throw new UnsupportedOperationException("not yet implemented ")
+    }
+
+    def details(){
+        def doc = mongoDBService.findTransactionByUuid(params.uuid)
+        if(doc){
+            def cmd = new TransactionDocumentCommand()
+            cmd.uuid = doc.uuid
+            cmd.reference = doc.reference
+            cmd.documentDate = DateUtils.convertToDate(doc.documentDate)
+
+            doc.transactions.each {
+                def txn = new TransactionEntryCommand()
+                txn.accountId = it.account.id
+                txn.postingKey = Side.valueOf(it.postingKey.name)
+                txn.amount = it.amount.toBigDecimal()
+                txn.description = it.description
+                txn.comments = it.comment
+                txn.uuid = it.uuid
+                cmd.entries << txn
+            }
+
+            render view: 'entryAdd', model: [cmd : cmd, update: true]
+        } else {
+            redirect action: 'index'
+        }
     }
 }

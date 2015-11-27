@@ -35,9 +35,10 @@
                     </ul>
                 </g:hasErrors>
 
-                <g:form controller="deliverableThree" action="saveTransactionEntry" >
+                <g:form controller="deliverableThree" action="${update ? 'updateTransactionEntry' : 'saveTransactionEntry'}" >
                     <div class="fieldcontain">
                         <label for="reference">Ref. Description</label>
+                        <g:hiddenField name="uuid" value="${cmd?.uuid}"/>
                         <g:textField name="reference" value="${cmd?.reference}"/>
                     </div>
                     <div class="fieldcontain required">
@@ -74,12 +75,15 @@
                                 </tr>
                             </g:if>
                             <g:else>
-                                <g:each in="${cmd?.entries}" var="entry" status="i">
+                                <g:each in="${cmd?.entries.sort{a,b -> b.postingKey.name() <=> a.postingKey.name()}}" var="entry" status="i">
                                     <tr>
                                         <td><g:select name="entries[${i}].accountId" from="${Account.list(order)}" optionKey="id"
-                                              value="${entry.accountId ?: 1}" optionValue="nameAndSide"/></td>
+                                              value="${entry.accountId ?: 1}" optionValue="nameAndSide"/>
+                                        </td>
                                         <td><g:select name="entries[${i}].postingKey" from="${Side.values()}" value="${entry.postingKey}"/></td>
-                                        <td><g:textField name="entries[${i}].amount" value="${entry.amount}"/></td>
+                                        <td><g:textField name="entries[${i}].amount" value="${entry.amount}"/>
+                                            <g:hiddenField name="entries[${i}].uuid" value="${entry.uuid}"/>
+                                        </td>
                                         <td><g:textField name="entries[${i}].description" value="${entry.description}"/></td>
                                         <td><g:textField name="entries[${i}].comments" value="${entry.comments}"/></td>
                                     </tr>
@@ -88,7 +92,7 @@
                         </tbody>
                     </table>
                     <fieldset class="buttons">
-                        <g:submitButton name="Add" class="save"/>
+                        <g:submitButton name="${update ? 'Update' : 'Add'}" class="save"/>
                         <input type="button" id="add-row" value="Add Row" class="edit" onclick="addRow()"/>
                     </fieldset>
                 </g:form>

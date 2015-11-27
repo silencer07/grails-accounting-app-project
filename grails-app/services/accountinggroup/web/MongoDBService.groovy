@@ -66,6 +66,11 @@ class MongoDBService {
         }
     }
 
+    def findTransactionByUuid(String uuid){
+        def db = gmongo.getDB(AccountSummaryService.DB_KEY)
+        return db.transactions.findOne(uuid : uuid)
+    }
+
     def updateTransactionDocument(TransactionEntryCommand cmd){
         //update sync = false
     }

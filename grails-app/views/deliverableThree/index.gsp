@@ -33,7 +33,7 @@
                         <g:each in="${documents}" var="doc">
                             <tr>
                                 <td></td>
-                                <td>Ref: ${doc.reference}</td>
+                                <td>Ref: <g:link action="details" params="[uuid : doc.uuid]">${doc.reference}</g:link></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
