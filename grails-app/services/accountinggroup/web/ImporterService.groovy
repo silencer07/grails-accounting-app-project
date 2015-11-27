@@ -74,7 +74,7 @@ class ImporterService {
     }
 
     private def dropMongoDBCache() {
-        def db = mongo.getDB("accountinggroup-web")
+        def db = mongo.getDB(AccountSummaryService.DB_KEY)
         db.dropDatabase()
     }
 
