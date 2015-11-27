@@ -1,5 +1,5 @@
-import com.admu.accountinggroup.domain.TransactionDocumentTemp
-import com.admu.accountinggroup.domain.TransactionTemp
+import com.admu.accountinggroup.domain.TransactionDocument
+import com.admu.accountinggroup.domain.Transaction
 import grails.rest.render.json.JsonCollectionRenderer
 import grails.rest.render.json.JsonRenderer
 
@@ -8,19 +8,19 @@ def exclusionList = ['id','class']
 // Place your Spring DSL code here
 beans = {
 
-    transactionDocumentTempCollectionRenderer(JsonCollectionRenderer, TransactionDocumentTemp) {
+    transactionDocumentCollectionRenderer(JsonCollectionRenderer, TransactionDocument) {
         excludes = exclusionList
     }
 
-    transactionDocumentTempRenderer(JsonRenderer, TransactionDocumentTemp) {
+    transactionDocumentRenderer(JsonRenderer, TransactionDocument) {
         excludes = exclusionList
     }
 
-    transactionTempCollectionRenderer(JsonCollectionRenderer, TransactionTemp) {
+    transactionCollectionRenderer(JsonCollectionRenderer, Transaction) {
         excludes = exclusionList
     }
 
-    transactionTempRenderer(JsonRenderer, TransactionTemp) {
+    transactionRenderer(JsonRenderer, Transaction) {
         excludes = exclusionList
     }
 }
