@@ -16,6 +16,7 @@
                 <div class="nav" role="navigation">
                     <ul>
                         <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
+                        <li><g:link class="create" action="sync">Sync Cache to Persistent Storage</g:link></li>
                     </ul>
                 </div>
                 <br/>

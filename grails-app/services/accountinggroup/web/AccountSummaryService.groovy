@@ -9,7 +9,7 @@ import grails.transaction.Transactional
 @Transactional
 class AccountSummaryService {
 
-    public static final String DB_KEY = "accountinggroup-web"
+    public static final String DB_KEY = "accountinggroup"
 
     def mongo
 

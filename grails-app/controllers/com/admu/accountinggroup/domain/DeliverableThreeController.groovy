@@ -24,7 +24,7 @@ class DeliverableThreeController {
         }
 
         def transactionDocument = new TransactionDocument()
-        transactionDocument.reference = transactionDocument.reference
+        transactionDocument.reference = cmd.reference
         transactionDocument.documentDate = cmd.documentDate
         cmd.entries.each {
             def transaction = new Transaction()
@@ -41,5 +41,15 @@ class DeliverableThreeController {
 
         flash.message = "Adding T-Account Entry Successful! Scroll down to see changes...."
         redirect(action: 'index')
+    }
+
+    def sync() {
+        mongoDBService.syncToDatabase()
+        flash.message = "Sync Successful...."
+        redirect(action: 'index')
+    }
+
+    def updateTransactionEntry(TransactionDocumentCommand cmd){
+        throw new UnsupportedOperationException("not yet implemented ")
     }
 }

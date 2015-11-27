@@ -10,6 +10,7 @@ class TransactionDocument {
     String reference
     boolean voidStatus
     String uuid = UUID.randomUUID().toString()
+    boolean synced = false
 
     static constraints = {
         balance nullable: false
