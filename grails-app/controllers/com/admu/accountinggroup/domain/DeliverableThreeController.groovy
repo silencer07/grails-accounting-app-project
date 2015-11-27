@@ -6,8 +6,9 @@ import com.admu.accountinggroup.TransactionEntryCommand
 import com.admu.accountinggroup.utils.DateUtils
 
 /**
- * This class will be the controller for T-Account entry
- * TODO: optimize toJSON of various classes, expiration date
+ * expiration date
+ * quartz job
+ * quartz job UI
  */
 class DeliverableThreeController {
 
