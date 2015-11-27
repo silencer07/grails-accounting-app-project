@@ -35,7 +35,7 @@
                     </ul>
                 </g:hasErrors>
 
-                <g:form controller="transactionAccountEntry" action="saveTransactionEntry" >
+                <g:form controller="deliverableThree" action="saveTransactionEntry" >
                     <div class="fieldcontain">
                         <label for="reference">Ref. Description</label>
                         <g:textField name="reference" value="${cmd?.reference}"/>

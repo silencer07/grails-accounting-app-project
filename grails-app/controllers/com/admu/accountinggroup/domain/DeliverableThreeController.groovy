@@ -23,11 +23,11 @@ class DeliverableThreeController {
             return
         }
 
-        def transactionDocument = new TransactionDocumentTemp()
+        def transactionDocument = new TransactionDocument()
         transactionDocument.reference = transactionDocument.reference
         transactionDocument.documentDate = cmd.documentDate
         cmd.entries.each {
-            def transaction = new TransactionTemp()
+            def transaction = new Transaction()
             transaction.account = Account.get(it.accountId)
             transaction.postingKey = it.postingKey
             transaction.amount = it.amount
@@ -37,8 +37,9 @@ class DeliverableThreeController {
             transactionDocument.addToTransactions(transaction)
         }
         transactionDocument.balance = cmd.balance
-        transactionDocument.save()
+        mongoDBService.saveTransaction(transactionDocument)
 
+        flash.message = "Adding T-Account Entry Successful! Scroll down to see changes...."
         redirect(action: 'index')
     }
 }

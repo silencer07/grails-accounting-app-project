@@ -10,6 +10,9 @@
     <body>
             <div class="content scaffold-list" role="main">
                 <h1>T-Account Pending Entries</h1>
+                <g:if test="${flash.message}">
+                    <div class="message" role="status">${flash.message}</div>
+                </g:if>
                 <div class="nav" role="navigation">
                     <ul>
                         <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
@@ -35,7 +38,7 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <g:each in="${doc.transactions}" var="transaction" status="i">
+                            <g:each in="${doc.transactions.sort{a,b -> b.postingKey.name <=> a.postingKey.name}}" var="transaction" status="i">
                                 <tr>
                                     <td>
                                         <g:if test="${i == 0}">
