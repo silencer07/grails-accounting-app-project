@@ -5,11 +5,11 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>T-Account Pending Entries</title>
+        <title>T-Account Cache Entries</title>
     </head>
     <body>
             <div class="content scaffold-list" role="main">
-                <h1>T-Account Pending Entries</h1>
+                <h1>T-Account Cache Entries</h1>
                 <g:if test="${flash.message}">
                     <div class="message" role="status">${flash.message}</div>
                 </g:if>
@@ -34,7 +34,7 @@
                             <tr>
                                 <td></td>
                                 <td>Ref: <g:link action="details" params="[uuid : doc.uuid]">${doc.reference}</g:link></td>
-                                <td></td>
+                                <td>Synced: <g:formatBoolean boolean="${doc.synced}" false="No" true="Yes"/></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

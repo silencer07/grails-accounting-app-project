@@ -1,5 +1,7 @@
 package com.admu.accountinggroup.domain
 
+import com.fasterxml.uuid.Generators
+
 import java.text.SimpleDateFormat
 
 class TransactionDocument {
@@ -9,7 +11,7 @@ class TransactionDocument {
     Date postingDate = new Date()
     String reference
     boolean voidStatus
-    String uuid = UUID.randomUUID().toString()
+    String uuid = Generators.timeBasedGenerator().generate().toString()
     boolean synced = false
 
     static constraints = {
@@ -21,7 +23,7 @@ class TransactionDocument {
 
     static mapping = {
         table 'transaction_documents'
-        transactions sort: "postingKey", order : 'desc'
+        transactions sort: "postingKey", order : 'desc', cascade: 'all-delete-orphan'
     }
 
     static hasMany = [transactions:Transaction]

@@ -1,6 +1,7 @@
 package com.admu.accountinggroup.domain
 
 import com.admu.accountinggroup.Side
+import com.fasterxml.uuid.Generators
 
 class Transaction {
 
@@ -10,7 +11,7 @@ class Transaction {
     String description
     Side postingKey
     TransactionDocument transactionDocument
-    String uuid = UUID.randomUUID().toString()
+    String uuid = Generators.timeBasedGenerator().generate().toString()
 
 
     static constraints = {

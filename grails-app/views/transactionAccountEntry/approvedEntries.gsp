@@ -4,11 +4,11 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>T-Account Approved Entries</title>
+        <title>T-Account PostgresSQL Entries</title>
     </head>
     <body>
             <div class="content scaffold-list" role="main">
-                <h1>T-Account Approved Entries</h1>
+                <h1>T-Account PostgresSQL Entries</h1>
                 <div class="nav" role="navigation">
                     <ul>
                         <li><g:link class="home" action="index">Back</g:link></li>
@@ -16,7 +16,7 @@
                         <li><g:link class="home" action="chart">Show Benchmark</g:link></li>
                     </ul>
                 </div>
-                <g:if test="${documents}">
+                <g:if test="${documents.sort{a,b -> a.documentDate <=> b.documentDate}})">
                     <table border="1">
                         <tr>
                             <th>Date</th>

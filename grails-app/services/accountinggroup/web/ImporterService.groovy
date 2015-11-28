@@ -2,6 +2,7 @@ package accountinggroup.web
 
 import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.domain.*
+import com.fasterxml.uuid.Generators
 import grails.transaction.Transactional
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
@@ -97,12 +98,14 @@ class ImporterService {
         doc.addToTransactions(debit)
 
         def credit = new Transaction(debit.properties)
+        credit.uuid = Generators.timeBasedGenerator().generate().toString()
         credit.postingKey = Side.CR
         credit.account = creditAccounts[5]
         credit.amount = 500
         doc.addToTransactions(credit)
 
         def credit2 = new Transaction(credit.properties)
+        credit2.uuid = Generators.timeBasedGenerator().generate().toString()
         credit2.account = creditAccounts[6]
         doc.addToTransactions(credit2)
 

@@ -55,7 +55,14 @@ class DeliverableThreeController {
     }
 
     def updateTransactionEntry(TransactionDocumentCommand cmd){
-        throw new UnsupportedOperationException("not yet implemented ")
+        if (cmd.hasErrors()) {
+            render view: 'entryAdd', model: [cmd : cmd]
+            return
+        }
+
+        mongoDBService.updateTransactionDocument(cmd)
+        flash.message = "Update Successful...."
+        render view: 'entryAdd', model: [cmd : cmd, update: true]
     }
 
     def details(){
@@ -68,7 +75,7 @@ class DeliverableThreeController {
 
             doc.transactions.each {
                 def txn = new TransactionEntryCommand()
-                txn.accountId = it.account.id
+                txn.accountId = it.account.id.toLong()
                 txn.postingKey = Side.valueOf(it.postingKey.name)
                 txn.amount = it.amount.toBigDecimal()
                 txn.description = it.description

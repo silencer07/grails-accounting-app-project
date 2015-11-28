@@ -7,12 +7,16 @@ import java.text.SimpleDateFormat
  */
 class DateUtils {
 
-    private static def format = "yyyy-MM-dd"
+    //2015-11-23T07:50:07Z
+    private static def format = "yyyy-MM-dd'T'HH:mm:ssX"
 
     static def convertToDate(String date){
-        date = date.substring(0, 10)
-
-        def formatter = new SimpleDateFormat(format)
+        def formatter = new SimpleDateFormat(format);
         return formatter.parse(date)
+    }
+
+    static def convertToW3CXMLSchemaDateTimeString(Date date){
+        def formatter = new SimpleDateFormat(format)
+        return formatter.format(date)
     }
 }

@@ -1,7 +1,7 @@
 package accountinggroup.web
 
 import com.admu.accountinggroup.Side
-import com.admu.accountinggroup.TransactionEntryCommand
+import com.admu.accountinggroup.TransactionDocumentCommand
 import com.admu.accountinggroup.domain.Account
 import com.admu.accountinggroup.domain.Transaction
 import com.admu.accountinggroup.domain.TransactionDocument
@@ -39,30 +39,39 @@ class MongoDBService {
                 doc = new TransactionDocument()
             }
 
-            doc.balance = it.balance
-            doc.documentDate = DateUtils.convertToDate(it.documentDate)
-            doc.postingDate = DateUtils.convertToDate(it.postingDate)
-            doc.reference = it.reference
-            doc.uuid = it.uuid
-            doc.voidStatus = it.voidStatus.toBoolean()
+            def mongoDoc = findTransactionByUuid(it.uuid)
+            if(!mongoDoc.synced?.toBoolean()){
+                doc.balance = it.balance
+                doc.documentDate = DateUtils.convertToDate(it.documentDate)
+                doc.postingDate = DateUtils.convertToDate(it.postingDate)
+                doc.reference = it.reference
+                doc.uuid = it.uuid
+                doc.voidStatus = it.voidStatus.toBoolean()
 
-            it.transactions.each {
-                def txn = Transaction.findByUuid(it.uuid)
-                if(!txn){
-                    txn = new Transaction()
+                doc.transactions?.clear()
+                doc.save()
+                it.transactions.each {
+                    def txn = new Transaction()
+
+                    txn.account = Account.get(it.account.id.toLong())
+                    txn.amount = it.amount.toBigDecimal()
+                    txn.description = it.description
+                    txn.postingKey = Side.valueOf(it.postingKey.name)
+                    txn.comment = it.comment
+                    txn.uuid = it.uuid
+                    doc.addToTransactions(txn)
                 }
-                txn.account = Account.get(it.account.id.toLong())
-                txn.amount = it.amount.toBigDecimal()
-                txn.description = it.description
-                txn.postingKey = Side.valueOf(it.postingKey.name)
-                txn.comment = it.comment
-                txn.uuid = it.uuid
-                doc.addToTransactions(txn)
+
+                doc.synced = true
+
+                doc.save()
+
+
+                mongoDoc.synced = true
+
+                def db = gmongo.getDB(AccountSummaryService.DB_KEY)
+                db.transactions.update([uuid: doc.uuid], [ $set:mongoDoc ], true)
             }
-
-            doc.synced = true
-
-            doc.save()
         }
     }
 
@@ -71,7 +80,29 @@ class MongoDBService {
         return db.transactions.findOne(uuid : uuid)
     }
 
-    def updateTransactionDocument(TransactionEntryCommand cmd){
-        //update sync = false
+    def updateTransactionDocument(TransactionDocumentCommand cmd){
+        def doc = findTransactionByUuid(cmd.uuid)
+        if(doc){
+            doc.reference = cmd.reference
+            doc.documentDate = DateUtils.convertToW3CXMLSchemaDateTimeString(cmd.documentDate)
+            doc.transactions = []
+            cmd.entries.each { entry ->
+                if(entry){
+                    def txn = [:]
+                    txn.uuid = entry.uuid
+                    txn.account = [id : entry.accountId.toString()]
+                    txn.postingKey = [enumType : entry.postingKey.getClass().getCanonicalName(), name : entry.postingKey.name()]
+                    txn.amount = entry.amount.toString()
+                    txn.description = entry.description
+                    txn.comment = entry.comments
+
+                    doc.transactions << txn
+                }
+            }
+            doc.synced = false
+
+            def db = gmongo.getDB(AccountSummaryService.DB_KEY)
+            db.transactions.update([uuid: doc.uuid], [ $set:doc ])
+        }
     }
 }

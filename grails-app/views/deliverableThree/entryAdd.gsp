@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>Create T-Account Entry</title>
+        <title>${ update ? 'Update' : 'Create'} T-Account Entry</title>
     <script>
         function addRow() {
             var $tableBody = $("#entryDataBody");
@@ -25,7 +25,7 @@
     </head>
     <body>
             <div class="content scaffold-list" role="main">
-                <h1>Create T-Account Entry</h1>
+                <h1>${ update ? 'Update' : 'Create'} T-Account Entry</h1>
                 <div class="nav" role="navigation">
                     <ul>
                         <li><g:link class="home" action="index">Back</g:link></li>
@@ -38,6 +38,9 @@
                         </g:eachError>
                     </ul>
                 </g:hasErrors>
+                <g:if test="${flash.message}">
+                    <div class="message" role="status">${flash.message}</div>
+                </g:if>
 
                 <g:form controller="deliverableThree" action="${update ? 'updateTransactionEntry' : 'saveTransactionEntry'}" >
                     <div class="fieldcontain">
