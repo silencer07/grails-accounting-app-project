@@ -11,7 +11,7 @@
             var rowCount = $tableBody.children().length;
             var $lastRow = $tableBody.children("tr:last");
 
-            var toAppend = $lastRow.html();
+            var toAppend = $lastRow.clone().find("input").val("").end().html();
             toAppend = toAppend.split("[" + (rowCount - 1) + "]").join("[" + rowCount +"]");
 
             $lastRow.after("<tr>" + toAppend + "</tr>");

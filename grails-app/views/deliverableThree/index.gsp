@@ -46,7 +46,7 @@
                                            <g:formatDate format="MM/dd" date="${DateUtils.convertToDate(doc.documentDate)}"/>
                                         </g:if>
                                     </td>
-                                    <td>${transaction.account.name}</td>
+                                    <td>${Account.get(transaction.account.id).name}</td>
                                     <td style="text-align:right;">
                                         <g:if test="${Side.DR == Side.valueOf(transaction.postingKey.name)}">
                                             ${transaction.amount}
