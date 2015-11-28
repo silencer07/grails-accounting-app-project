@@ -17,6 +17,10 @@
             $lastRow.after("<tr>" + toAppend + "</tr>");
             $("#add-row").prop('enabled',  true);
         }
+
+        function removeRow(removeButton){
+            $(removeButton).parent().parent().remove();
+        }
     </script>
     </head>
     <body>
@@ -54,6 +58,9 @@
                             <th>Amount</th>
                             <th>Description</th>
                             <th>Comments</th>
+                            <g:if test="${update}">
+                                <th></th>
+                            </g:if>
                         </tr>
                         <tbody id="entryDataBody">
                             <g:if test="${!cmd?.entries}">
@@ -81,11 +88,15 @@
                                               value="${entry.accountId ?: 1}" optionValue="nameAndSide"/>
                                         </td>
                                         <td><g:select name="entries[${i}].postingKey" from="${Side.values()}" value="${entry.postingKey}"/></td>
-                                        <td><g:textField name="entries[${i}].amount" value="${entry.amount}"/>
+                                        <td><g:textField name="entries[${i}].amount" value="${entry.amount}" size="8"/>
                                             <g:hiddenField name="entries[${i}].uuid" value="${entry.uuid}"/>
                                         </td>
                                         <td><g:textField name="entries[${i}].description" value="${entry.description}"/></td>
-                                        <td><g:textField name="entries[${i}].comments" value="${entry.comments}"/></td>
+                                        <td><g:textField name="entries[${i}].comments" value="${entry.comments}"/>
+                                        </td>
+                                        <g:if test="${update}">
+                                            <td><input type="button" id="remove-row" value="X" onclick="removeRow(this)" style="color: red; font-weight: 700;"/></td>
+                                        </g:if>
                                     </tr>
                                 </g:each>
                             </g:else>
