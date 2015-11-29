@@ -6,9 +6,12 @@ import com.admu.accountinggroup.TransactionEntryCommand
 import com.admu.accountinggroup.utils.DateUtils
 
 /**
- * expiration date
+ * TODO
  * quartz job
  * quartz job UI
+ * readme
+ * package to jar
+ * expiration date
  */
 class DeliverableThreeController {
 
@@ -56,9 +59,11 @@ class DeliverableThreeController {
 
     def updateTransactionEntry(TransactionDocumentCommand cmd){
         if (cmd.hasErrors()) {
-            render view: 'entryAdd', model: [cmd : cmd]
+            render view: 'entryAdd', model: [cmd : cmd, update: true]
             return
         }
+
+        cmd.entries = cmd.entries.grep()
 
         mongoDBService.updateTransactionDocument(cmd)
         flash.message = "Update Successful...."

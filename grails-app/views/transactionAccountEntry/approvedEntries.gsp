@@ -9,14 +9,7 @@
     <body>
             <div class="content scaffold-list" role="main">
                 <h1>T-Account PostgresSQL Entries</h1>
-                <div class="nav" role="navigation">
-                    <ul>
-                        <li><g:link class="home" action="index">Back</g:link></li>
-                        <li><g:link class="create" action="entryAdd">Add T-Account Entry</g:link></li>
-                        <li><g:link class="home" action="chart">Show Benchmark</g:link></li>
-                    </ul>
-                </div>
-                <g:if test="${documents.sort{a,b -> a.documentDate <=> b.documentDate}})">
+                <g:if test="${documents}})">
                     <table border="1">
                         <tr>
                             <th>Date</th>
@@ -26,7 +19,7 @@
                             <th>Comments</th>
                             <th>Description</th>
                         </tr>
-                        <g:each in="${documents}" var="doc">
+                        <g:each in="${documents.sort{a,b -> a.documentDate <=> b.documentDate}}" var="doc">
                             <tr>
                                 <td><b>Ref. id: ${doc.id}</b></td>
                                 <td>Ref: ${doc.reference}</td>
@@ -69,10 +62,6 @@
                         <tr>
                         </tr>
                     </table>
-                    <fieldset class="buttons">
-                        <input type="button" value="Approve" class="save"
-                           onclick="location.href = '${createLink(action:'approveTempEntries')}';"/>
-                    </fieldset>
                 </g:if>
                 <g:else>
                     <p align="center">

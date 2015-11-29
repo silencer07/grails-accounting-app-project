@@ -6,6 +6,7 @@ import com.admu.accountinggroup.domain.Account
 import com.admu.accountinggroup.domain.Transaction
 import com.admu.accountinggroup.domain.TransactionDocument
 import com.admu.accountinggroup.utils.DateUtils
+import com.fasterxml.uuid.Generators
 import com.gmongo.GMongo
 import com.mongodb.DBObject
 import com.mongodb.util.JSON
@@ -23,6 +24,7 @@ class MongoDBService {
         while (cursor.hasNext()){
             list << cursor.next()
         }
+        list.sort {a,b -> DateUtils.convertToDate(a.documentDate) <=> DateUtils.convertToDate(b.documentDate)}
         return list
     }
 
@@ -89,7 +91,7 @@ class MongoDBService {
             cmd.entries.each { entry ->
                 if(entry){
                     def txn = [:]
-                    txn.uuid = entry.uuid
+                    txn.uuid = entry.uuid ?: Generators.timeBasedGenerator().generate().toString()
                     txn.account = [id : entry.accountId.toString()]
                     txn.postingKey = [enumType : entry.postingKey.getClass().getCanonicalName(), name : entry.postingKey.name()]
                     txn.amount = entry.amount.toString()
