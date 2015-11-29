@@ -29,6 +29,10 @@
                 <div class="nav" role="navigation">
                     <ul>
                         <li><g:link class="home" action="index">Back</g:link></li>
+                        <li><g:link class="create" action="sync">Sync Cache to DB</g:link></li>
+                        <li><g:link class="home" controller="transactionAccountEntry" action="approvedEntries" target="_blank">Synced Data</g:link></li>
+                        <li><g:link class="home" controller="quartz" action="list" target="_blank">Sync Sched. Details</g:link></li>
+                        <li><g:link class="create" action="scheduleThreeMinutesFromNow">Sched. Sync in 3 mins.</g:link></li>
                     </ul>
                 </div>
                 <g:hasErrors bean="${cmd}">

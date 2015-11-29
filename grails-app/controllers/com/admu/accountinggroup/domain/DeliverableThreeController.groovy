@@ -1,18 +1,11 @@
 package com.admu.accountinggroup.domain
 
+import accountinggroup.web.SyncJob
 import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.TransactionDocumentCommand
 import com.admu.accountinggroup.TransactionEntryCommand
 import com.admu.accountinggroup.utils.DateUtils
 
-/**
- * TODO
- * quartz job
- * quartz job UI
- * readme
- * package to jar
- * expiration date
- */
 class DeliverableThreeController {
 
     def mongoDBService
@@ -93,5 +86,11 @@ class DeliverableThreeController {
         } else {
             redirect action: 'index'
         }
+    }
+
+    def scheduleThreeMinutesFromNow(){
+        SyncJob.schedule(3 * 1000 * 60, 1, [:])
+        flash.message = "Sync Schedule Three Minutes From Now..."
+        redirect action: "index"
     }
 }
