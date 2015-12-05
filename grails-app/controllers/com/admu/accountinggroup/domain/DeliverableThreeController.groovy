@@ -19,6 +19,7 @@ class DeliverableThreeController {
     }
 
     def saveTransactionEntry(TransactionDocumentCommand cmd ){
+        cmd.entries = cmd.entries.grep()
         if (cmd.hasErrors()) {
             render view: 'entryAdd', model: [cmd : cmd]
             return

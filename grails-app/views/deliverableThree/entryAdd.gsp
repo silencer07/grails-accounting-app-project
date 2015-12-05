@@ -65,9 +65,7 @@
                             <th>Amount</th>
                             <th>Description</th>
                             <th>Comments</th>
-                            <g:if test="${update}">
-                                <th></th>
-                            </g:if>
+                            <th></th>
                         </tr>
                         <tbody id="entryDataBody">
                             <g:if test="${!cmd?.entries}">
@@ -75,17 +73,19 @@
                                     <td><g:select name="entries[0].accountId" from="${Account.list()}" optionKey="id"
                                         optionValue="nameAndSide"/></td>
                                     <td><g:select name="entries[0].postingKey" from="${Side.values()}"/></td>
-                                    <td><g:textField name="entries[0].amount"/></td>
+                                    <td><g:textField name="entries[0].amount" size="8"/></td>
                                     <td><g:textField name="entries[0].description"/></td>
                                     <td><g:textField name="entries[0].comments"/></td>
+                                    <td><input type="button" value="X" onclick="removeRow(this)" style="color: red; font-weight: 700;"/></td>
                                 </tr>
                                 <tr>
                                     <td><g:select name="entries[1].accountId" from="${Account.list()}" optionKey="id"
                                         optionValue="nameAndSide"/></td>
                                     <td><g:select name="entries[1].postingKey" from="${Side.values()}" value="${Side.CR}"/></td>
-                                    <td><g:textField name="entries[1].amount"/></td>
+                                    <td><g:textField name="entries[1].amount" size="8"/></td>
                                     <td><g:textField name="entries[1].description"/></td>
                                     <td><g:textField name="entries[1].comments"/></td>
+                                    <td><input type="button" value="X" onclick="removeRow(this)" style="color: red; font-weight: 700;"/></td>
                                 </tr>
                             </g:if>
                             <g:else>
@@ -99,11 +99,8 @@
                                             <g:hiddenField name="entries[${i}].uuid" value="${entry.uuid}"/>
                                         </td>
                                         <td><g:textField name="entries[${i}].description" value="${entry.description}"/></td>
-                                        <td><g:textField name="entries[${i}].comments" value="${entry.comments}"/>
-                                        </td>
-                                        <g:if test="${update}">
-                                            <td><input type="button" id="remove-row" value="X" onclick="removeRow(this)" style="color: red; font-weight: 700;"/></td>
-                                        </g:if>
+                                        <td><g:textField name="entries[${i}].comments" value="${entry.comments}"/></td>
+                                        <td><input type="button" value="X" onclick="removeRow(this)" style="color: red; font-weight: 700;"/></td>
                                     </tr>
                                 </g:each>
                             </g:else>
