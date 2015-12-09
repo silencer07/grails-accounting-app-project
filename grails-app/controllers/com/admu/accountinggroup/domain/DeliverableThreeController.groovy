@@ -1,6 +1,7 @@
 package com.admu.accountinggroup.domain
 
 import accountinggroup.web.SyncJob
+import com.admu.accountinggroup.BookCommand
 import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.TransactionDocumentCommand
 import com.admu.accountinggroup.TransactionEntryCommand
@@ -93,5 +94,18 @@ class DeliverableThreeController {
         SyncJob.schedule(3 * 1000 * 60, 1, [:])
         flash.message = "Sync Schedule Three Minutes From Now..."
         redirect action: "index"
+    }
+
+    def reverseEntry(){
+
+    }
+
+    def performReverseEntry(BookCommand cmd){
+        if(cmd.validate() && cmd.exists(mongoDBService)){
+            mongoDBService.reverse(cmd)
+            flash.message = "Reverse Entry Saved..."
+        }
+
+        render view: 'reverseEntry', model: [cmd : cmd]
     }
 }

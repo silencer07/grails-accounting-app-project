@@ -1,5 +1,6 @@
 package accountinggroup.web
 
+import com.admu.accountinggroup.BookCommand
 import com.admu.accountinggroup.Side
 import com.admu.accountinggroup.TransactionDocumentCommand
 import com.admu.accountinggroup.domain.Account
@@ -105,6 +106,39 @@ class MongoDBService {
 
             def db = gmongo.getDB(AccountSummaryService.DB_KEY)
             db.transactions.update([uuid: doc.uuid], [ $set:doc ])
+        }
+    }
+
+    def synchronized reverse(BookCommand cmd){
+        println "i am here"
+        if(cmd.validate()){
+            println "i am valid"
+            def doc = findTransactionByUuid(cmd.uuid)
+
+            def docReverse = doc.clone()
+            println doc.toString()
+            docReverse.uuid = Generators.timeBasedGenerator().generate().toString()
+            docReverse['_id'] = null
+            docReverse.transactions = []
+
+            for(def tx : doc.transactions){
+                def txReverse = tx.clone()
+                txReverse['_id'] = null
+                txReverse.uuid = Generators.timeBasedGenerator().generate().toString()
+                txReverse.postingKey = Side.valueOf(tx.postingKey.name) == Side.DR ?
+                        [enumType : Side.getClass().getCanonicalName(), name : Side.CR.name()] :
+                        [enumType : Side.getClass().getCanonicalName(), name : Side.DR.name()]
+                docReverse.transactions << txReverse
+
+                println "i am looping"
+            }
+            docReverse.synced = false
+
+            def db = gmongo.getDB(AccountSummaryService.DB_KEY)
+            println docReverse.toString()
+            db.transactions << docReverse
+
+            println "inserted"
         }
     }
 }
